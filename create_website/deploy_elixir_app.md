@@ -1,4 +1,3 @@
-# Deploy an Elixir application with NGINX
 
 # WIP
 
@@ -11,12 +10,24 @@ This is a walkthrough of deploying what is my third incaration of my recent webs
 
 ## Phoenix Releases
 
-Follow these steps
-
+## Release strategy
+The code is being buit on a Mac and being released to a single instance of Ubuntu. Initially, scaling out will not be an issue so we'll use the strategy to compile code directly on the deploy target.
     * https://hexdocs.pm/mix/Mix.Tasks.Release.html
+    * https://hexdocs.pm/phoenix/deployment.html#content
 
+### Generate secret key
+Generate the key and add it ~/.bashrc
+
+### Compile assets
 
 ## Install Postgres to your Droplet
+
+Use pgadmin4
+Add database url to your .bashrc
+
+### Run It!
+The app should run
+PORT=4001 MIX_ENV=prod mix phx.server
 
 TODO add pg instructions
 
@@ -101,10 +112,13 @@ location /new {
 
 Notice the rewrite rule applied. The route that will used to access the new site will be /new and the rewrite rule will proxy the request to the elixir app as removing "new".  This will allow phoenix app as if it were executing at the root.
 
+##nginx
 
+sudo systemctl start nginx
 
-
-
+location /images/ {
+    try_files $uri $uri/ /images/default.gif;
+}
 
 ## References
 * https://hexdocs.pm/mix/Mix.Tasks.Release.html
